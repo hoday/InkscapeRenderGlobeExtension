@@ -27,31 +27,32 @@ from __future__ import division
 import inkex
 import simplestyle, sys
 from math import *
+from lxml import etree
 
 def draw_SVG_line(x1, y1, x2, y2, width, name, parent):
     style = { 'stroke': '#000000', 'stroke-width':str(width), 'fill': 'none' }
-    line_attribs = {'style':simplestyle.formatStyle(style),
+    line_attribs = {'style':str(inkex.Style(style)),
                     inkex.addNS('label','inkscape'):name,
                     'd':'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2)}
-    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), line_attribs )
+    etree.SubElement(parent, inkex.addNS('path','svg'), line_attribs )
     
 def draw_SVG_rect(x,y,w,h, width, fill, name, parent):
     style = { 'stroke': '#000000', 'stroke-width':str(width), 'fill':fill}
-    rect_attribs = {'style':simplestyle.formatStyle(style),
+    rect_attribs = {'style':str(inkex.Style(style)),
                     inkex.addNS('label','inkscape'):name,
                     'x':str(x), 'y':str(y), 'width':str(w), 'height':str(h)}
-    inkex.etree.SubElement(parent, inkex.addNS('rect','svg'), rect_attribs )
+    etree.SubElement(parent, inkex.addNS('rect','svg'), rect_attribs )
 
 def draw_SODIPODI_elipse(cx,cy,rx,ry, width, fill, name, parent):
     style = { 'stroke': '#000000', 'stroke-width':str(width), 'fill':fill}
-    circle_attribs = {'style':simplestyle.formatStyle(style),
+    circle_attribs = {'style':str(inkex.Style(style)),
                       inkex.addNS('label','inkscape'):name,
                       inkex.addNS('cx','sodipodi'):str(cx),
                       inkex.addNS('cy','sodipodi'):str(cy),
                       inkex.addNS('rx','sodipodi'):str(rx),
                       inkex.addNS('ry','sodipodi'):str(ry),
                       inkex.addNS('type','sodipodi'):'arc'}
-    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), circle_attribs)    
+    etree.SubElement(parent, inkex.addNS('path','svg'), circle_attribs)    
 
 def draw_SODIPODI_elipse_rotated(cx,cy,rx,ry, width, fill, name, parent, rotationAngle):
     a = cos(rotationAngle)
@@ -66,7 +67,7 @@ def draw_SODIPODI_elipse_rotated(cx,cy,rx,ry, width, fill, name, parent, rotatio
         x2 = cx
         y1 = cy - ry
         y2 = cy + ry
-        circle_attribs = {'style':simplestyle.formatStyle(style),
+        circle_attribs = {'style':str(inkex.Style(style)),
                           inkex.addNS('label','inkscape'):name,
                           'd':'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2),
                           'transform':'matrix('+str(a)+','+str(b)+','+str(c)+','+str(d)+','+str(e)+','+str(f)+')'}
@@ -75,12 +76,12 @@ def draw_SODIPODI_elipse_rotated(cx,cy,rx,ry, width, fill, name, parent, rotatio
         x2 = cx + rx
         y1 = cy
         y2 = cy
-        circle_attribs = {'style':simplestyle.formatStyle(style),
+        circle_attribs = {'style':str(inkex.Style(style)),
                           inkex.addNS('label','inkscape'):name,
                           'd':'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2),
                           'transform':'matrix('+str(a)+','+str(b)+','+str(c)+','+str(d)+','+str(e)+','+str(f)+')'}                           
     else:
-        circle_attribs = {'style':simplestyle.formatStyle(style),
+        circle_attribs = {'style':str(inkex.Style(style)),
                           inkex.addNS('label','inkscape'):name,
                           inkex.addNS('cx','sodipodi'):str(cx),
                           inkex.addNS('cy','sodipodi'):str(cy),
@@ -88,7 +89,7 @@ def draw_SODIPODI_elipse_rotated(cx,cy,rx,ry, width, fill, name, parent, rotatio
                           inkex.addNS('ry','sodipodi'):str(ry),
                           inkex.addNS('type','sodipodi'):'arc',
                           'transform':'matrix('+str(a)+','+str(b)+','+str(c)+','+str(d)+','+str(e)+','+str(f)+')'}
-    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), circle_attribs)
+    etree.SubElement(parent, inkex.addNS('path','svg'), circle_attribs)
 
 def draw_SODIPODI_elipse_segment_rotated(cx,cy,rx,ry, width, fill, name, parent, rotationAngle, segmentAngleStart, segmentAngleEnd):
     a = cos(rotationAngle)
@@ -103,7 +104,7 @@ def draw_SODIPODI_elipse_segment_rotated(cx,cy,rx,ry, width, fill, name, parent,
         x2 = cx
         y1 = cy - ry
         y2 = cy + ry
-        circle_attribs = {'style':simplestyle.formatStyle(style),
+        circle_attribs = {'style':str(inkex.Style(style)),
                           inkex.addNS('label','inkscape'):name,
                           'd':'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2),
                           'transform':'matrix('+str(a)+','+str(b)+','+str(c)+','+str(d)+','+str(e)+','+str(f)+')'}
@@ -112,12 +113,12 @@ def draw_SODIPODI_elipse_segment_rotated(cx,cy,rx,ry, width, fill, name, parent,
         x2 = cx + rx
         y1 = cy
         y2 = cy
-        circle_attribs = {'style':simplestyle.formatStyle(style),
+        circle_attribs = {'style':str(inkex.Style(style)),
                           inkex.addNS('label','inkscape'):name,
                           'd':'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2),
                           'transform':'matrix('+str(a)+','+str(b)+','+str(c)+','+str(d)+','+str(e)+','+str(f)+')'}     
     else:  
-        circle_attribs = {'style':simplestyle.formatStyle(style),
+        circle_attribs = {'style':str(inkex.Style(style)),
                           inkex.addNS('label','inkscape'):name,
                           inkex.addNS('cx','sodipodi'):str(cx),
                           inkex.addNS('cy','sodipodi'):str(cy),
@@ -128,30 +129,30 @@ def draw_SODIPODI_elipse_segment_rotated(cx,cy,rx,ry, width, fill, name, parent,
                           inkex.addNS('open','sodipodi'):'true',
                           inkex.addNS('type','sodipodi'):'arc',
                           'transform':'matrix('+str(a)+','+str(b)+','+str(c)+','+str(d)+','+str(e)+','+str(f)+')'}
-    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), circle_attribs)
+    etree.SubElement(parent, inkex.addNS('path','svg'), circle_attribs)
 
 
 class Globe(inkex.Effect):
     def __init__(self):
         inkex.Effect.__init__(self)
-        self.OptionParser.add_option("--longitudeLineCount",
-                        action="store", type="int", 
+        self.arg_parser.add_argument("--longitudeLineCount",
+                        action="store", type=int, 
                         dest="longitudeLineCount", default=8,
                         help="Number of longitude lines")
-        self.OptionParser.add_option("--latitudeLineCount",
-                        action="store", type="int", 
+        self.arg_parser.add_argument("--latitudeLineCount",
+                        action="store", type=int, 
                         dest="latitudeLineCount", default=5,
                         help="Number of latitude lines")
-        self.OptionParser.add_option("--rotationXDegrees",
-                        action="store", type="float", 
+        self.arg_parser.add_argument("--rotationXDegrees",
+                        action="store", type=float, 
                         dest="rotationXDegrees", default=0,
                         help="Rotation around X axis (degrees)")
-        self.OptionParser.add_option("--rotationYDegrees",
-                        action="store", type="float", 
+        self.arg_parser.add_argument("--rotationYDegrees",
+                        action="store", type=float, 
                         dest="rotationYDegrees", default=0,
                         help="Rotation around Y axis (degrees)")
-        self.OptionParser.add_option("--isSeeThrough",
-                        action="store", type="inkbool", 
+        self.arg_parser.add_argument("--isSeeThrough",
+                        action="store", type=inkex.Boolean, 
                         dest="isSeeThrough", default=False,
                         help="Is the globe see-through")
     def effect(self):
@@ -201,7 +202,7 @@ class Globe(inkex.Effect):
 
         # create the group to put the globe in
         group_attribs = {inkex.addNS('label','inkscape'):name}
-        parent = inkex.etree.SubElement(self.current_layer, 'g', group_attribs)
+        parent = etree.SubElement(self.svg.get_current_layer(), 'g', group_attribs)
 
 
         # draw the outside border
@@ -310,35 +311,35 @@ class Globe(inkex.Effect):
         g_attribs = {inkex.addNS('label','inkscape'):'Grid_Polar:X' + \
                      str( self.options.x_divs )+':Y'+str( self.options.y_divs ),
                      'transform':t }
-        grid = inkex.etree.SubElement(self.current_layer, 'g', g_attribs)
+        grid = etree.SubElement(self.current_layer, 'g', g_attribs)
         
         #Group for major x gridlines
         g_attribs = {inkex.addNS('label','inkscape'):'MajorXGridlines'}
-        majglx = inkex.etree.SubElement(grid, 'g', g_attribs)
+        majglx = etree.SubElement(grid, 'g', g_attribs)
 
         #Group for major y gridlines
         g_attribs = {inkex.addNS('label','inkscape'):'MajorYGridlines'}
-        majgly = inkex.etree.SubElement(grid, 'g', g_attribs)
+        majgly = etree.SubElement(grid, 'g', g_attribs)
         
         #Group for minor x gridlines
         if self.options.x_subdivs > 1:#if there are any minor x gridlines
             g_attribs = {inkex.addNS('label','inkscape'):'MinorXGridlines'}
-            minglx = inkex.etree.SubElement(grid, 'g', g_attribs)
+            minglx = etree.SubElement(grid, 'g', g_attribs)
         
         #Group for subminor x gridlines
         if self.options.x_subsubdivs > 1:#if there are any minor minor x gridlines
             g_attribs = {inkex.addNS('label','inkscape'):'SubMinorXGridlines'}
-            mminglx = inkex.etree.SubElement(grid, 'g', g_attribs)
+            mminglx = etree.SubElement(grid, 'g', g_attribs)
         
         #Group for minor y gridlines
         if self.options.y_subdivs > 1:#if there are any minor y gridlines
             g_attribs = {inkex.addNS('label','inkscape'):'MinorYGridlines'}
-            mingly = inkex.etree.SubElement(grid, 'g', g_attribs)
+            mingly = etree.SubElement(grid, 'g', g_attribs)
         
         #Group for subminor y gridlines
         if self.options.y_subsubdivs > 1:#if there are any minor minor x gridlines
             g_attribs = {inkex.addNS('label','inkscape'):'SubMinorYGridlines'}
-            mmingly = inkex.etree.SubElement(grid, 'g', g_attribs)
+            mmingly = etree.SubElement(grid, 'g', g_attribs)
 
             
         draw_SVG_rect(0, 0, xmax, ymax, self.options.border_th,
@@ -434,6 +435,6 @@ class Globe(inkex.Effect):
 
 if __name__ == '__main__':
     e = Globe()
-    e.affect()
+    e.run()
 
 
